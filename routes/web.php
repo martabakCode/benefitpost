@@ -10,6 +10,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ProjectToolController;
 use App\Http\Controllers\ToolController;
 use App\Http\Controllers\WalletTransactionController;
+use App\Http\Controllers\TaskApplicantSubmitController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -58,6 +59,9 @@ Route::middleware('auth')->group(function () {
             ->name('dashboard.proposals');
         Route::get('/dashboard/proposal_details/{project}/{projectApplicant}', [DashboardController::class, 'proposal_details'])
             ->name('dashboard.proposal_details');
+        Route::get('task_applicants/create/{task_id}', [TaskApplicantSubmitController::class, 'create'])->name('task_applicants.create');
+        Route::resource('task_applicants', TaskApplicantSubmitController::class)->except(['create']);
+
     });
 
     Route::prefix('admin')->name('admin.')->group(function () {

@@ -30,6 +30,7 @@ class DashboardController extends Controller
         if ($projectApplicant->freelancer_id != auth()->id()) {
             abort(403, 'Anda bukan freelancer yang mengajukan proposal ini');
         }
+
         return view('dashboard.proposal_details', compact('projectApplicant', 'project'));
     }
     public function wallet()

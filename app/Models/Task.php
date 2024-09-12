@@ -12,4 +12,9 @@ class Task extends Model
     {
         return $this->belongsTo(Project::class);
     }
+    public function task_applicants_submit()
+    {
+        return $this->hasMany(TaskApplicantSubmit::class);
+    }
+
 }

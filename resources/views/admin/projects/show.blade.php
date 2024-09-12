@@ -20,7 +20,7 @@
                     <div class="flex flex-row items-center gap-x-3">
                         <img src="{{ Storage::url($project->thumbnail) }}" alt="" class="rounded-2xl object-cover w-[120px] h-[90px]">
                         <div class="flex flex-col">
-                            <h3 class="text-teal-950 text-xl font-bold">{{ $project->name }}</h3>
+                            <h3 class="text-indigo-950 text-xl font-bold">{{ $project->name }}</h3>
                             <p class="text-slate-500 text-sm">{{ $project->category->name }}</p>
                         </div>
                     </div>
@@ -28,10 +28,12 @@
                         <a href="{{ route('front.details', $project->slug) }}" class="font-bold py-4 px-6 bg-orange-500 text-white rounded-full">
                             Preview
                         </a>
-                        <a href="{{ route('admin.projects.tools', $project) }}" class="font-bold py-4 px-6 bg-teal-700 text-white rounded-full">
+                        <a href="{{ route('admin.projects.tools', $project) }}" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
                             Add Tools
                         </a>
                     </div>
+
+
                 </div>
 
                 <hr class="my-5">
@@ -60,6 +62,46 @@
                     </div>
                 </div>
                 @endforeach
+
+                <hr class="my-5">
+
+                <h3 class="text-indigo-950 text-xl font-bold">Applicants</h3>
+
+
+                @forelse($project->applicants as $applicant)
+                <div class="flex flex-row justify-between items-center">
+                    <div class="flex flex-row items-center gap-x-3">
+                        <img src="{{ Storage::url($applicant->freelancer->avatar) }}" alt="" class="rounded-full object-cover w-[70px] h-[70px]">
+                        <div class="flex flex-col">
+                            <h3 class="text-indigo-950 text-xl font-bold">{{ $applicant->freelancer->name }}</h3>
+                            <p class="text-slate-500 text-sm">{{ $applicant->freelancer->occupation }}</p>
+                        </div>
+                    </div>
+
+                    @if ($applicant->status == 'Hired')
+                    <span class="w-fit text-sm font-bold py-2 px-3 rounded-full bg-green-500 text-white">
+                        HIRED
+                    </span>
+
+                    @elseif($applicant->status == 'Waiting')
+                    <span class="w-fit text-sm font-bold py-2 px-3 rounded-full bg-orange-500 text-white">
+                        WAITING FOR APPROVAL
+                    </span>
+                    @elseif($applicant->status == 'Rejected')
+                    <span class="w-fit text-sm font-bold py-2 px-3 rounded-full bg-red-500 text-white">
+                        REJECTED
+                    </span>
+                    @endif
+
+                    <div class="flex flex-row items-center gap-x-3">
+                        <a href="{{ route('admin.project_applicants.show', $applicant) }}" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
+                            Details
+                        </a>
+                    </div>
+                </div>
+                @empty
+                <p>Belum ada yang Apply</p>
+                @endforelse
 
             </div>
         </div>

@@ -37,12 +37,20 @@ class ProjectApplicantController extends Controller
      */
     public function show(ProjectApplicant $projectApplicant)
     {
-        //
-        if($projectApplicant->project->client_id != auth()->id()){
+        $project = $projectApplicant->project; // Ambil proyek terkait
+
+        // Cek apakah pengguna yang login adalah klien proyek
+        if($project->client_id != auth()->id()){
             abort(403, 'Anda bukan freelancer yang mengajukan proposal ini');
         }
-        return view('admin.projects.applicant_details', compact('projectApplicant'));
+
+        // Pass kedua variabel ke view
+        return view('admin.projects.applicant_details', [
+            'projectApplicant' => $projectApplicant,
+            'project' => $project,
+        ]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -57,7 +65,6 @@ class ProjectApplicantController extends Controller
      */
     public function update(Request $request, ProjectApplicant $projectApplicant)
     {
-        //
         DB::transaction(function() use ($projectApplicant){
             $projectApplicant->update([
                 'status' => 'Hired',
